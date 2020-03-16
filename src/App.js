@@ -63,14 +63,38 @@ class App extends React.Component {
   };  // A new grocery list is created in a new object that gets passed in setState.
       // setState will recognize that the components that are interested in this part of the state, it needs to re-render and do things differently.
 
+  addItem = itemName => {
+    this.setState({
+      TodoItems: [...this.state.TodoItems, 
+        {
+          task: itemName, 
+          completed: false, 
+          id: (Math.random() * Math.random()).toString(9).substr(2, 9)
+        }
+      ]
+    })
+  }
+
+  clearCompleted = () => {
+    console.log('km: App.js: App: clearCompleted: ');
+    this.setState({
+      TodoItems: this.state.TodoItems.filter(item => {
+        return !item.completed;
+      })
+    });
+  };
+
   render() {
     return (
       <div>
         <h2>Welcome to your Todo App!</h2>
         <TodoList 
           todoitems={this.state.TodoItems} 
-          toggleCompleted={this.toggleCompleted} />
-        <TodoForm />
+          toggleCompleted={this.toggleCompleted}
+           />
+        <TodoForm 
+        addItem={this.addItem}
+        clearCompleted={this.clearCompleted} />
       </div>
     );
   }
